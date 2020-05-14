@@ -1,0 +1,299 @@
+---
+title: "El virus de la Corona"
+author: "not only Stefano Cabras ... also thanks to statisticians at uc3m.es"
+date: '`r format(Sys.time())` '
+site: bookdown::bookdown_site
+documentclass: book
+output:
+  bookdown::gitbook: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = FALSE,warning = FALSE)
+options(bitmapType='cairo')
+rm(list=ls())
+load(file="stanmod.RData")
+library(reshape2)
+library(plotly)
+library(coda)
+library(rstan)
+library(knitr)
+library(kableExtra)
+```
+
+# Prediction of * confirmed* cases for next days
+
+Conditionally to:
+
+  1. the observed data up to `r max(cvirus$fecha)` (only the *official confirmed cases*)
+  2. assuming that these data reflect covid-19 epidemic evolution;
+  3. the model detailed below;
+
+Then below is the prediction of confirmed cases for last and next days updated at the time of this report (see above).
+
+It also estimate the probability of observing the peak (defined as less increment in cases than the previous day). Prediction limits are at 95% of probability.
+
+```{r,echo=FALSE}
+prob.peak=function(predobs) round(mean(predobs[,2]<=predobs[,1])*100,1)
+preds=extract(fit,pars="yp")$yp
+preds=cbind(preds,extract(fit,pars="ypf")$ypf)
+pp=c(NA)
+for(i in 2:ncol(preds)) pp=c(pp,prob.peak(preds[,i:(i-1)])) 
+dd=c(cvirus$fecha,cvirus$fecha[n]+(1:np))
+dbres=data.frame(day=dd,yinf=apply(preds,2,quantile,p=0.025),
+                 ymean=apply(preds,2,mean),ysup=apply(preds,2,quantile,p=0.975),
+                 ppeak=pp,obs=c(cvirus$casos,rep(NA,np)))
+
+kable(dbres[n+(-3:np),],col.names = c("Day","Inf.","Expected","Sup.","Prob of Peak","Obs."),digits = 0) %>%
+  kable_styling("striped", full_width = F,position = "center") %>%
+  column_spec(c(2,4), bold = T,italic = TRUE) %>%
+  column_spec(4, bold = T, color = "white", background = "#D7261E") %>%
+  column_spec(6, bold = T, color = "black", background = "yellow")
+
+p=ggplot(dbres, aes(x=day, y=ymean,ymin=yinf,ymax=ysup,color=pp)) + 
+  geom_point()+
+ geom_ribbon(alpha = 0.5, colour = "yellow")+geom_point(data=dbres,aes(x=day,y=obs),color="red")+
+  xlab("Day")+ylab("Cases")+
+  ggtitle("Predicted and Observed confirmed cases")+labs(colour = "Peak's\nprobability (%)")+scale_color_gradient(low="blue", high="green")
+
+ggplotly(p, tooltip = c("city"))
+
+```
+
+## Evolution of increments
+
+```{r}
+increment=NULL
+for(i in 2:ncol(preds)) increment=cbind(increment,preds[,i]-preds[,i-1]) 
+obsinc=cvirus$casos[-1]-cvirus$casos[-nrow(cvirus)]
+
+dbinc=data.frame(day=dd[-1],yinf=apply(increment,2,quantile,p=0.025),
+                 ymean=apply(increment,2,mean),ysup=apply(increment,2,quantile,p=0.975),
+                 obs=c(obsinc,rep(NA,np)))
+
+p=ggplot(dbinc, aes(x=day, y=ymean,ymin=yinf,ymax=ysup)) + 
+  geom_point()+
+ geom_ribbon(alpha = 0.5, colour = "yellow")+ geom_point(data=dbinc,aes(x=day,y=obs),color="red")+
+  xlab("Day")+ylab("Cases")+
+  ggtitle("Predicted and Observed increment of cases")
+
+print(p)
+```
+
+
+
+## Data
+
+Here is the DataBase from ISCII (https://covid19.isciii.es/) of only confirmed cases at the end of the Day.
+
+These data can be smileading and the rest of analysis is subject to assuming that confirmed cases reflect evolution of covid-19 spread.
+
+```{r}
+rm(list=ls())
+url <- "https://code.montera34.com:4443/numeroteca/covid19/-/raw/master/data/output/covid19-cases-uci-deaths-by-ccaa-spain-by-day-accumulated.csv"
+cvirus <- read.table(url, sep = ",", header = T)
+xxc=aggregate(cvirus$cases_registered,list(fecha=cvirus$date),sum,na.rm=TRUE)
+xxc[,2]=c(0,xxc[-1,2]-xxc[-nrow(xxc),2])
+cvirus=data.frame(fecha=as.Date(xxc[-1,1]),casos=xxc[-1,2])
+cvirus=cvirus[order(cvirus$fecha),]
+cvirus=na.omit(cvirus)
+fecha=cvirus$fecha
+n=nrow(cvirus)
+```
+
+
+## Model for marginal counts cases
+
+Let $Y_t \in \mathcal{N}_0$ represents the number of cases at time (days) $t$ where $t=1$ is `r cvirus$fecha[1]`.
+
+The fitted model is an ARMA(1,1) on the Poisson mean:
+
+$$
+\begin{aligned}
+Y_t | \lambda_t & \sim  Poisson(\lambda_t), \mbox{ for } t>0\\
+\log(\lambda_t) & = \omega+\alpha\log(1+y_{t-1})+\beta\log(\lambda_{t-1}), \mbox{ for } t>1\\
+\alpha,\beta,\omega & \sim N(0,10) (i.i.d.)\\
+log(\lambda_1) & \sim N(-99,0.001)
+\end{aligned}
+$$
+
+
+Interpetation of parameters:
+
+- $\omega$ is the mean number (in log scale) of infected (actually the certified infected);
+- $\alpha$ is the short term component (i.e. the proportion of new infected with respect to the day before);
+- $\beta$ is the long term component that represents the evolution with respect to the mean (this is analogue to posing a GARCH on Poisson counts);
+
+The non Bayesian and *slighlty less complicated* version of this model can be found here:
+
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3551626
+
+```{r,eval=FALSE}
+rstan_options(auto_write = FALSE)
+Sys.setenv(LOCAL_CPPFLAGS = '-march=native -mtune=native -axCORE-AVX2')
+options(mc.cores = parallel::detectCores())
+
+mod.cov ="
+data {
+  int<lower=2> n;// number of observations
+  int<lower=2> np;// number of predicted days
+  int<lower=0> y[n]; // Cases
+  
+}
+
+parameters {
+  real alpha;
+  real beta; 
+  real omega;
+}
+
+transformed parameters {
+  vector[n] llambda;
+  llambda[1]=-99;
+  for(t in 2:n) llambda[t]=omega+alpha*log(1+y[t-1])+beta*llambda[t-1];
+}
+
+model {
+  // Priors
+  alpha ~ normal(0,10);
+  beta ~ normal(0,10);
+  omega ~ normal(0,10);
+  // Likelihood
+  y ~ poisson_log(llambda);
+
+}
+
+generated quantities {
+  int<lower=0> yp[n];
+  int<lower=0> ypf[np];
+  real llambdaf[np];
+  yp[1]=0;
+  for(t in 2:n) yp[t] = poisson_rng(exp(llambda[t])); //y values predicted by the model
+  llambdaf[1]=omega+alpha*log(1+y[n])+beta*llambda[n];
+  ypf[1]=poisson_rng(exp(llambdaf[1]));
+  for(t in 2:np){
+      llambdaf[t]=omega+alpha*log(1+ypf[t-1])+beta*llambdaf[t-1];
+      ypf[t]=poisson_rng(exp(llambdaf[t]));
+  }
+}
+"
+ii=list(omega=1.12,alpha=0.88,beta=0)
+init_f <- function () list(ii,ii,ii,ii)
+m1 <- stan_model(model_code = mod.cov)
+
+```
+
+Hamiltonian MC is used for obtaining the posterior:
+
+```{r,eval=FALSE}
+np=10
+niter=10000
+fit = sampling(m1,
+           data=list(y=cvirus$casos,n=n,np=np), 
+           iter=niter,chains = 4,
+          init = init_f(),
+          control = list(adapt_delta = 0.99,max_treedepth=50),
+           seed = 17,refresh=0)
+save(fit,cvirus,np,n,file="stanmod.RData")
+```
+
+## Goodness of Fit
+
+The model is reliable if is able to predict what observed, when taking into account prediction uncertainty. Here is the predicted mean and 95% posterior credible interval (i.e. small with respect to the mean).
+
+```{r}
+load(file="stanmod.RData")
+library(bayesplot)
+preds=extract(fit,pars="yp")$yp
+ppc_intervals(
+  y = apply(preds,2,mean),
+  yrep = preds,
+  x = cvirus$casos,
+  prob = 0.95
+)+labs(
+    x = "Observed Cases",
+    y = "Predicted cases",
+    title = "95% posterior predictive intervals \nvs Observed",
+    subtitle = "by day"
+  ) +
+  panel_bg(fill = "gray95", color = NA) +
+  grid_lines(color = "white")+geom_abline(intercept = 0,slope=1)
+
+```
+
+## Posterior Parameters
+
+Posterior distributions of model paramters: mean and 95% credible intervals.
+
+```{r}
+int.par=c("omega","alpha","beta")
+plot(fit,pars = int.par,ci.level=0.95,point_est="mean")
+print(fit,pars = int.par)
+```
+
+
+# Iterative estimation of parameters and outof sample prediction.
+
+This is interesting to monitor the evolution of covid-19.
+
+If model is reliable, then also parameter evolution is reliable.
+
+Further we check its out-of-sample prediction of cases since beginning of march. This is more reliable than the above goodness of fit.
+
+```{r,eval=FALSE}
+ndays=sum(cvirus$fecha>"2020-03-10")
+evpars=data.frame(NULL)
+windows=list(1:(n-ndays+1))
+for(i in (n-ndays+2):n) windows=c(windows,list(1:i))
+nw=length(windows)
+for(i in 1:nw){
+  fit = sampling(m1,
+           data=list(y=cvirus$casos[windows[[i]]],
+                     n=length(windows[[i]]),np=2),
+           iter=niter,chains = 4,
+            init = init_f(),
+#           control = list(adapt_delta = 0.99,max_treedepth=50),
+           seed = 11,refresh=0)
+  post.par=extract(fit,pars=c(int.par,"ypf"))
+  for(j in 1:length(int.par)){
+    evpars=rbind(evpars,data.frame(day=cvirus$fecha[max(windows[[i]])],
+                              value=post.par[[j]],
+                              param=int.par[j]))
+  }
+  evpars=rbind(evpars,data.frame(day=cvirus$fecha[max(windows[[i]])],
+                              value=post.par[[j+1]][,1],
+                              param="outpred"))
+
+  cat("i=",i,"/",nw," - ")
+}
+save(evpars,file="evpars.RData")
+```
+
+## Evolution of parameters (using data since the beginning)
+
+```{r}
+load(file="evpars.RData")
+ggplotly(ggplot(evpars[evpars$param!="outpred",], aes(x=day, y=value, colour=param)) + geom_smooth()+
+  geom_vline(xintercept=as.Date("2020-03-10"),linetype="dashed",color = "red", size=2)+
+  geom_hline(yintercept=0)+
+  xlab("Days")+  ylab("Posterior mean and 95% C.I."))
+```
+
+Reaching a peak means $\alpha_2<0$ and $\beta_2<0$, while disappear of the covid means all parameters less than 0.
+
+## Out of sample prediction
+
+```{r}
+outpred=evpars[evpars$param=="outpred",]
+outpred=aggregate(value~day,outpred,
+                             function(xx) c(quantile(xx,0.025),mean(xx),quantile(xx,0.975)))
+outpred=data.frame(do.call(cbind,outpred))
+colnames(outpred)=c("day","inf","mean","sup")
+outpred$predday=sort(unique(evpars$day))+1
+ggplot(outpred, aes(x=predday, y=mean)) + geom_line() +
+geom_point(data=cvirus[cvirus$fecha%in%outpred$day,],
+           aes(x=fecha,y=casos),color="red")+
+  geom_errorbar(aes(ymin=inf, ymax=sup), width=.2,position=position_dodge(0.05))+
+  xlab("Days")+ ylab("Posterior outofsample mean and 95% C.I.")
+
+```
