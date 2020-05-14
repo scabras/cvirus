@@ -1,1 +1,1 @@
-# corona_no_beer
+https://scabras.github.io/cvirus/
