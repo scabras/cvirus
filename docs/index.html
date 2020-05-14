@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>El virus de la Corona</title>
+  <meta name="description" content="El virus de la Corona" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="El virus de la Corona" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="El virus de la Corona" />
+  
+  
+  
+
+<meta name="author" content="not only Stefano Cabras … also thanks to statisticians at uc3m.es" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="iterative-estimation-of-parameters-and-outof-sample-prediction-.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prediction of * confirmed* cases for next days</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#evolution-of-increments"><i class="fa fa-check"></i><b>1.1</b> Evolution of increments</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.2</b> Data</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#model-for-marginal-counts-cases"><i class="fa fa-check"></i><b>1.3</b> Model for marginal counts cases</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#goodness-of-fit"><i class="fa fa-check"></i><b>1.4</b> Goodness of Fit</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#posterior-parameters"><i class="fa fa-check"></i><b>1.5</b> Posterior Parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="iterative-estimation-of-parameters-and-outof-sample-prediction-.html"><a href="iterative-estimation-of-parameters-and-outof-sample-prediction-.html"><i class="fa fa-check"></i><b>2</b> Iterative estimation of parameters and outof sample prediction.</a><ul>
+<li class="chapter" data-level="2.1" data-path="iterative-estimation-of-parameters-and-outof-sample-prediction-.html"><a href="iterative-estimation-of-parameters-and-outof-sample-prediction-.html#evolution-of-parameters-using-data-since-the-beginning"><i class="fa fa-check"></i><b>2.1</b> Evolution of parameters (using data since the beginning)</a></li>
+<li class="chapter" data-level="2.2" data-path="iterative-estimation-of-parameters-and-outof-sample-prediction-.html"><a href="iterative-estimation-of-parameters-and-outof-sample-prediction-.html#out-of-sample-prediction"><i class="fa fa-check"></i><b>2.2</b> Out of sample prediction</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">El virus de la Corona</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">El virus de la Corona</h1>
+<p class="author"><em>not only Stefano Cabras … also thanks to statisticians at uc3m.es</em></p>
+<p class="date"><em>2020-05-14 13:41:26</em></p>
+</div>
+<div id="prediction-of-confirmed-cases-for-next-days" class="section level1">
+<h1><span class="header-section-number">1</span> Prediction of * confirmed* cases for next days</h1>
+<p>Conditionally to:</p>
+<ol style="list-style-type: decimal">
+<li>the observed data up to 2020-05-06 (only the <em>official confirmed cases</em>)</li>
+<li>assuming that these data reflect covid-19 epidemic evolution;</li>
+<li>the model detailed below;</li>
+</ol>
+<p>Then below is the prediction of confirmed cases for last and next days updated at the time of this report (see above).</p>
+<p>It also estimate the probability of observing the peak (defined as less increment in cases than the previous day). Prediction limits are at 95% of probability.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Day
+</th>
+<th style="text-align:right;">
+Inf.
+</th>
+<th style="text-align:right;">
+Expected
+</th>
+<th style="text-align:right;">
+Sup.
+</th>
+<th style="text-align:right;">
+Prob of Peak
+</th>
+<th style="text-align:right;">
+Obs.
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+72
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-03
+</td>
+<td style="text-align:right;">
+2592
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2696
+</td>
+<td style="text-align:right;">
+2800
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+0
+</td>
+<td style="text-align:right;">
+1577
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+73
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-04
+</td>
+<td style="text-align:right;">
+1747
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+1833
+</td>
+<td style="text-align:right;">
+1920
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+0
+</td>
+<td style="text-align:right;">
+1091
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+74
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-05
+</td>
+<td style="text-align:right;">
+1260
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+1332
+</td>
+<td style="text-align:right;">
+1405
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+0
+</td>
+<td style="text-align:right;">
+1933
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+75
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-06
+</td>
+<td style="text-align:right;">
+2114
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+2208
+</td>
+<td style="text-align:right;">
+2303
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+100
+</td>
+<td style="text-align:right;">
+2810
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+76
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-07
+</td>
+<td style="text-align:right;">
+2944
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3052
+</td>
+<td style="text-align:right;">
+3163
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+100
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+77
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-08
+</td>
+<td style="text-align:right;">
+3118
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3271
+</td>
+<td style="text-align:right;">
+3425
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+100
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+78
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-09
+</td>
+<td style="text-align:right;">
+3287
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3473
+</td>
+<td style="text-align:right;">
+3659
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+100
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+79
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-10
+</td>
+<td style="text-align:right;">
+3452
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3660
+</td>
+<td style="text-align:right;">
+3873
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+100
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+80
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-11
+</td>
+<td style="text-align:right;">
+3603
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3830
+</td>
+<td style="text-align:right;">
+4061
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+100
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+81
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-12
+</td>
+<td style="text-align:right;">
+3740
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+3983
+</td>
+<td style="text-align:right;">
+4230
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+82
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-13
+</td>
+<td style="text-align:right;">
+3864
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+4122
+</td>
+<td style="text-align:right;">
+4385
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+98
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+83
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-14
+</td>
+<td style="text-align:right;">
+3978
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+4247
+</td>
+<td style="text-align:right;">
+4522
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+97
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+84
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-15
+</td>
+<td style="text-align:right;">
+4081
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+4358
+</td>
+<td style="text-align:right;">
+4639
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+95
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+85
+</td>
+<td style="text-align:left;font-weight: bold;font-style: italic;">
+2020-05-16
+</td>
+<td style="text-align:right;">
+4172
+</td>
+<td style="text-align:right;font-weight: bold;font-style: italic;font-weight: bold;color: white !important;background-color: #D7261E !important;">
+4458
+</td>
+<td style="text-align:right;">
+4746
+</td>
+<td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;">
+93
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-f60d31abdd1b9ee7cc94" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f60d31abdd1b9ee7cc94">{"x":{"data":[{"x":[18314,18315,18316,18317,18318,18319,18320,18321,18322,18323,18324,18325,18326,18327,18328,18329,18330,18331,18332,18333,18334,18335,18336,18337,18338,18339,18340,18341,18342,18343,18344,18345,18346,18347,18348,18349,18350,18351,18352,18353,18354,18355,18356,18357,18358,18359,18360,18361,18362,18363,18364,18365,18366,18367,18368,18369,18370,18371,18372,18373,18374,18375,18376,18377,18378,18379,18380,18381,18382,18383,18384,18385,18386,18387,18388,18389,18390,18391,18392,18393,18394,18395,18396,18397,18398],"y":[0,9.12625,2.99155,3.0544,5.5632,16.65975,20.5414,35.86155,44.67995,55.21335,99.6073,103.8967,125.4052,135.9298,296.66975,336.9091,465.27225,599.782,984.97495,1220.5935,1395.9291,1736.1912,1987.4651,2390.80195,1990.11115,2745.65735,3875.25595,4174.7137,4577.60725,5477.73325,4909.08345,4690.7544,7302.7079,8015.60015,8332.2601,8506.6762,7767.15555,6217.7288,5711.75085,7698.15475,7081.38115,7188.00065,6925.79675,6452.18285,5507.78795,3798.11285,5274.1691,5521.52315,5649.74095,4664.0312,4677.5406,4090.8993,3361.92085,3409.41275,4595.60385,5087.99925,4748.2681,5650.31365,4440.13035,3806.14935,3785.23565,3894.12995,4788.5584,3661.74465,4050.35355,3013.039,2861.88245,3143.11975,3647.1839,3319.90065,3448.79365,2696.2022,1833.17955,1331.51495,2208.09175,3052.1608,3270.85635,3473.39805,3659.60625,3829.7729,3983.14645,4122.39105,4246.5537,4358.4268,4457.70155],"text":"","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":["rgba(127,127,127,1)","rgba(0,255,0,1)","rgba(74,49,238,1)","rgba(124,168,148,1)","rgba(93,223,87,1)","rgba(14,254,10,1)","rgba(109,205,110,1)","rgba(32,251,26,1)","rgba(93,223,87,1)","rgba(89,227,82,1)","rgba(0,255,0,1)","rgba(122,176,140,1)","rgba(69,239,61,1)","rgba(111,202,113,1)","rgba(0,255,0,1)","rgba(58,244,50,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(3,255,2,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(25,12,253,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(18,253,13,1)","rgba(76,235,68,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(101,215,97,1)","rgba(24,11,253,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(22,253,17,1)","rgba(83,230,76,1)","rgba(0,0,255,1)","rgba(125,160,154,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(115,194,122,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(123,127,183,1)","rgba(81,232,73,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(37,20,251,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(61,243,53,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(3,255,2,1)","rgba(11,254,8,1)","rgba(20,253,15,1)","rgba(31,252,25,1)","rgba(44,249,37,1)","rgba(56,245,47,1)","rgba(67,240,59,1)"],"opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":["rgba(127,127,127,1)","rgba(0,255,0,1)","rgba(74,49,238,1)","rgba(124,168,148,1)","rgba(93,223,87,1)","rgba(14,254,10,1)","rgba(109,205,110,1)","rgba(32,251,26,1)","rgba(93,223,87,1)","rgba(89,227,82,1)","rgba(0,255,0,1)","rgba(122,176,140,1)","rgba(69,239,61,1)","rgba(111,202,113,1)","rgba(0,255,0,1)","rgba(58,244,50,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(3,255,2,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(25,12,253,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(18,253,13,1)","rgba(76,235,68,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(101,215,97,1)","rgba(24,11,253,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(22,253,17,1)","rgba(83,230,76,1)","rgba(0,0,255,1)","rgba(125,160,154,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(115,194,122,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(123,127,183,1)","rgba(81,232,73,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(37,20,251,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rgba(61,243,53,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,0,255,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(0,255,0,1)","rgba(3,255,2,1)","rgba(11,254,8,1)","rgba(20,253,15,1)","rgba(31,252,25,1)","rgba(44,249,37,1)","rgba(56,245,47,1)","rgba(67,240,59,1)"]}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18314,18315,18316,18317,18318,18319,18320,18321,18322,18323,18324,18325,18326,18327,18328,18329,18330,18331,18332,18333,18334,18335,18336,18337,18338,18339,18340,18341,18342,18343,18344,18345,18346,18347,18348,18349,18350,18351,18352,18353,18354,18355,18356,18357,18358,18359,18360,18361,18362,18363,18364,18365,18366,18367,18368,18369,18370,18371,18372,18373,18374,18375,18376,18377,18378,18379,18380,18381,18382,18383,18384,18385,18386,18387,18388,18389,18390,18391,18392,18393,18394,18395,18396,18397,18398,18398,18398,18397,18396,18395,18394,18393,18392,18391,18390,18389,18388,18387,18386,18385,18384,18383,18382,18381,18380,18379,18378,18377,18376,18375,18374,18373,18372,18371,18370,18369,18368,18367,18366,18365,18364,18363,18362,18361,18360,18359,18358,18357,18356,18355,18354,18353,18352,18351,18350,18349,18348,18347,18346,18345,18344,18343,18342,18341,18340,18339,18338,18337,18336,18335,18334,18333,18332,18331,18330,18329,18328,18327,18326,18325,18324,18323,18322,18321,18320,18319,18318,18317,18316,18315,18314,18314],"y":[0,2,0,0,1,9,12,25,32,41,80,84,104,113,263,301,423,551,923,1152,1323,1653,1899,2294,1902,2642,3752.975,4049,4443,5331,4772,4556,7131,7835,8148,8316,7590,6058,5562,7521,6910,7019,6761,6295,5361,3677,5130.975,5376,5500,4530,4545,3963,3248,3293,4463,4947,4613,5500.975,4307,3684,3664,3771,4653,3543,3924,2905,2756,3034,3527,3205,3331,2592,1747,1260,2114,2944,3117.975,3287,3451.975,3603,3740,3864,3978,4081,4171.975,4171.975,4746,4639,4522.025,4385,4230,4061,3873,3659,3425,3163,2303,1405,1920,2800,3567,3434,3766,3254,2968,3124,4178,3783,4924,4019,3908,3929,4572,5799,4883,5231,4730,3526.025,3476,4219,4813,4800,5798,5668,5418,3920,5657,6612,7090,7360,7251,7875,5864,6376.025,7941,8694,8519,8194,7477,4827,5050,5627,4710,4302.025,3998,2850,2080,2489,2076,1820,1471,1291,1048.025,650,509,374,331,159,148,125,120,70,58,48,30,25,11,7,7,19,0,0],"text":"","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(255,255,0,0.5)","dash":"solid"},"fill":"toself","fillcolor":"rgba(51,51,51,0.5)","hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18314,18315,18316,18317,18318,18319,18320,18321,18322,18323,18324,18325,18326,18327,18328,18329,18330,18331,18332,18333,18334,18335,18336,18337,18338,18339,18340,18341,18342,18343,18344,18345,18346,18347,18348,18349,18350,18351,18352,18353,18354,18355,18356,18357,18358,18359,18360,18361,18362,18363,18364,18365,18366,18367,18368,18369,18370,18371,18372,18373,18374,18375,18376,18377,18378,18379,18380,18381,18382,18383,18384,18385,18386,18387,18388,18389,18390,18391,18392,18393,18394,18395,18396,18397,18398],"y":[0,0,0,1,6,8,16,21,27,54,57,71,78,191,223,323,433,764,981,1146,1471,1720,2126,1729,2488,3697,4039,4489,5513,4877,4625,7646,8546,8941,9158,8260,6406,5801,8138,7427,7548,7236,6673,5570,3643,5269,5572,5722,4602,4607,3956,3160,3203,4499,5068,4691,5713,4352,3642,3613,3731,4721,3489,3900,2789,2622,2915,3456,3111,3245,2454,1577,1091,1933,2810,null,null,null,null,null,null,null,null,null,null],"text":"","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(255,0,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(255,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18322],"y":[0],"name":"99_689d5c330094dadc9d2c6dddf45f717a","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#0000FF"],[0.00334448160535117,"#0903FE"],[0.00668896321070234,"#1006FE"],[0.0100334448160535,"#1509FD"],[0.0133779264214047,"#1A0CFD"],[0.0167224080267559,"#1E0FFC"],[0.020066889632107,"#2111FC"],[0.0234113712374582,"#2413FB"],[0.0267558528428094,"#2715FA"],[0.0301003344481605,"#2A17FA"],[0.0334448160535117,"#2C19F9"],[0.0367892976588629,"#2E1BF9"],[0.040133779264214,"#301CF8"],[0.0434782608695652,"#321EF7"],[0.0468227424749164,"#341FF7"],[0.0501672240802676,"#3621F6"],[0.0535117056856187,"#3822F6"],[0.0568561872909699,"#3A24F5"],[0.0602006688963211,"#3B25F5"],[0.0635451505016722,"#3D26F4"],[0.0668896321070234,"#3E27F3"],[0.0702341137123746,"#4029F3"],[0.0735785953177258,"#412AF2"],[0.0769230769230769,"#432BF2"],[0.0802675585284281,"#442CF1"],[0.0836120401337793,"#452DF0"],[0.0869565217391304,"#472EF0"],[0.0903010033444816,"#4830EF"],[0.0936454849498328,"#4931EF"],[0.0969899665551839,"#4A32EE"],[0.100334448160535,"#4B33EE"],[0.103678929765886,"#4C34ED"],[0.107023411371237,"#4E35EC"],[0.110367892976589,"#4F36EC"],[0.11371237458194,"#5037EB"],[0.117056856187291,"#5138EB"],[0.120401337792642,"#5239EA"],[0.123745819397993,"#533AE9"],[0.127090301003344,"#543BE9"],[0.130434782608696,"#543CE8"],[0.133779264214047,"#553DE8"],[0.137123745819398,"#563EE7"],[0.140468227424749,"#573FE7"],[0.1438127090301,"#5840E6"],[0.147157190635452,"#5941E5"],[0.150501672240803,"#5A42E5"],[0.153846153846154,"#5A42E4"],[0.157190635451505,"#5B43E4"],[0.160535117056856,"#5C44E3"],[0.163879598662207,"#5D45E2"],[0.167224080267559,"#5D46E2"],[0.17056856187291,"#5E47E1"],[0.173913043478261,"#5F48E1"],[0.177257525083612,"#6049E0"],[0.180602006688963,"#604AE0"],[0.183946488294314,"#614ADF"],[0.187290969899666,"#624BDE"],[0.190635451505017,"#624CDE"],[0.193979933110368,"#634DDD"],[0.197324414715719,"#644EDD"],[0.20066889632107,"#644FDC"],[0.204013377926421,"#6550DB"],[0.207357859531773,"#6550DB"],[0.210702341137124,"#6651DA"],[0.214046822742475,"#6752DA"],[0.217391304347826,"#6753D9"],[0.220735785953177,"#6854D9"],[0.224080267558528,"#6855D8"],[0.22742474916388,"#6955D7"],[0.230769230769231,"#6956D7"],[0.234113712374582,"#6A57D6"],[0.237458193979933,"#6A58D6"],[0.240802675585284,"#6B59D5"],[0.244147157190635,"#6B5AD4"],[0.247491638795987,"#6C5AD4"],[0.250836120401338,"#6C5BD3"],[0.254180602006689,"#6D5CD3"],[0.25752508361204,"#6D5DD2"],[0.260869565217391,"#6E5ED1"],[0.264214046822742,"#6E5ED1"],[0.267558528428094,"#6F5FD0"],[0.270903010033445,"#6F60D0"],[0.274247491638796,"#6F61CF"],[0.277591973244147,"#7061CF"],[0.280936454849498,"#7062CE"],[0.284280936454849,"#7163CD"],[0.287625418060201,"#7164CD"],[0.290969899665552,"#7165CC"],[0.294314381270903,"#7265CC"],[0.297658862876254,"#7266CB"],[0.301003344481605,"#7267CA"],[0.304347826086957,"#7368CA"],[0.307692307692308,"#7369C9"],[0.311036789297659,"#7469C9"],[0.31438127090301,"#746AC8"],[0.317725752508361,"#746BC7"],[0.321070234113712,"#756CC7"],[0.324414715719064,"#756CC6"],[0.327759197324415,"#756DC6"],[0.331103678929766,"#756EC5"],[0.334448160535117,"#766FC4"],[0.337792642140468,"#766FC4"],[0.341137123745819,"#7670C3"],[0.344481605351171,"#7771C3"],[0.347826086956522,"#7772C2"],[0.351170568561873,"#7772C1"],[0.354515050167224,"#7773C1"],[0.357859531772575,"#7874C0"],[0.361204013377926,"#7875C0"],[0.364548494983278,"#7875BF"],[0.367892976588629,"#7876BE"],[0.37123745819398,"#7977BE"],[0.374581939799331,"#7978BD"],[0.377926421404682,"#7978BD"],[0.381270903010033,"#7979BC"],[0.384615384615385,"#797ABB"],[0.387959866220736,"#7A7BBB"],[0.391304347826087,"#7A7BBA"],[0.394648829431438,"#7A7CBA"],[0.397993311036789,"#7A7DB9"],[0.40133779264214,"#7A7EB8"],[0.404682274247492,"#7B7EB8"],[0.408026755852843,"#7B7FB7"],[0.411371237458194,"#7B80B6"],[0.414715719063545,"#7B81B6"],[0.418060200668896,"#7B81B5"],[0.421404682274247,"#7B82B5"],[0.424749163879599,"#7C83B4"],[0.42809364548495,"#7C84B3"],[0.431438127090301,"#7C84B3"],[0.434782608695652,"#7C85B2"],[0.438127090301003,"#7C86B2"],[0.441471571906355,"#7C87B1"],[0.444816053511706,"#7C87B0"],[0.448160535117057,"#7C88B0"],[0.451505016722408,"#7D89AF"],[0.454849498327759,"#7D8AAE"],[0.45819397993311,"#7D8AAE"],[0.461538461538462,"#7D8BAD"],[0.464882943143813,"#7D8CAD"],[0.468227424749164,"#7D8CAC"],[0.471571906354515,"#7D8DAB"],[0.474916387959866,"#7D8EAB"],[0.478260869565217,"#7D8FAA"],[0.481605351170569,"#7D8FA9"],[0.48494983277592,"#7D90A9"],[0.488294314381271,"#7D91A8"],[0.491638795986622,"#7D92A8"],[0.494983277591973,"#7D92A7"],[0.498327759197324,"#7D93A6"],[0.501672240802676,"#7D94A6"],[0.505016722408027,"#7D95A5"],[0.508361204013378,"#7D95A4"],[0.511705685618729,"#7D96A4"],[0.51505016722408,"#7D97A3"],[0.518394648829431,"#7D97A2"],[0.521739130434783,"#7D98A2"],[0.525083612040134,"#7D99A1"],[0.528428093645485,"#7D9AA1"],[0.531772575250836,"#7D9AA0"],[0.535117056856187,"#7D9B9F"],[0.538461538461538,"#7D9C9F"],[0.54180602006689,"#7D9C9E"],[0.545150501672241,"#7D9D9D"],[0.548494983277592,"#7D9E9D"],[0.551839464882943,"#7D9F9C"],[0.555183946488294,"#7D9F9B"],[0.558528428093645,"#7DA09B"],[0.561872909698997,"#7DA19A"],[0.565217391304348,"#7DA299"],[0.568561872909699,"#7DA299"],[0.57190635451505,"#7DA398"],[0.575250836120401,"#7DA497"],[0.578595317725753,"#7DA497"],[0.581939799331104,"#7CA596"],[0.585284280936455,"#7CA695"],[0.588628762541806,"#7CA795"],[0.591973244147157,"#7CA794"],[0.595317725752508,"#7CA893"],[0.598662207357859,"#7CA993"],[0.602006688963211,"#7CA992"],[0.605351170568562,"#7CAA91"],[0.608695652173913,"#7BAB91"],[0.612040133779264,"#7BAC90"],[0.615384615384615,"#7BAC8F"],[0.618729096989967,"#7BAD8F"],[0.622073578595318,"#7BAE8E"],[0.625418060200669,"#7BAF8D"],[0.62876254180602,"#7AAF8D"],[0.632107023411371,"#7AB08C"],[0.635451505016722,"#7AB18B"],[0.638795986622074,"#7AB18B"],[0.642140468227425,"#7AB28A"],[0.645484949832776,"#79B389"],[0.648829431438127,"#79B488"],[0.652173913043478,"#79B488"],[0.655518394648829,"#79B587"],[0.658862876254181,"#78B686"],[0.662207357859532,"#78B686"],[0.665551839464883,"#78B785"],[0.668896321070234,"#78B884"],[0.672240802675585,"#77B983"],[0.675585284280937,"#77B983"],[0.678929765886288,"#77BA82"],[0.682274247491639,"#77BB81"],[0.68561872909699,"#76BB81"],[0.688963210702341,"#76BC80"],[0.692307692307692,"#76BD7F"],[0.695652173913043,"#75BE7E"],[0.698996655518395,"#75BE7E"],[0.702341137123746,"#75BF7D"],[0.705685618729097,"#74C07C"],[0.709030100334448,"#74C07B"],[0.712374581939799,"#74C17B"],[0.71571906354515,"#73C27A"],[0.719063545150502,"#73C379"],[0.722408026755853,"#73C378"],[0.725752508361204,"#72C478"],[0.729096989966555,"#72C577"],[0.732441471571906,"#71C676"],[0.735785953177258,"#71C675"],[0.739130434782609,"#71C774"],[0.74247491638796,"#70C874"],[0.745819397993311,"#70C873"],[0.749163879598662,"#6FC972"],[0.752508361204013,"#6FCA71"],[0.755852842809364,"#6ECB70"],[0.759197324414716,"#6ECB70"],[0.762541806020067,"#6DCC6F"],[0.765886287625418,"#6DCD6E"],[0.769230769230769,"#6CCD6D"],[0.77257525083612,"#6CCE6C"],[0.775919732441471,"#6BCF6C"],[0.779264214046823,"#6BD06B"],[0.782608695652174,"#6AD06A"],[0.785953177257525,"#6AD169"],[0.789297658862876,"#69D268"],[0.792642140468227,"#69D267"],[0.795986622073579,"#68D366"],[0.79933110367893,"#68D466"],[0.802675585284281,"#67D565"],[0.806020066889632,"#66D564"],[0.809364548494983,"#66D663"],[0.812709030100334,"#65D762"],[0.816053511705686,"#64D761"],[0.819397993311037,"#64D860"],[0.822742474916388,"#63D95F"],[0.826086956521739,"#62DA5E"],[0.82943143812709,"#62DA5D"],[0.832775919732441,"#61DB5C"],[0.836120401337793,"#60DC5B"],[0.839464882943144,"#60DC5A"],[0.842809364548495,"#5FDD59"],[0.846153846153846,"#5EDE58"],[0.849498327759197,"#5DDF57"],[0.852842809364548,"#5CDF56"],[0.8561872909699,"#5CE055"],[0.859531772575251,"#5BE154"],[0.862876254180602,"#5AE153"],[0.866220735785953,"#59E252"],[0.869565217391304,"#58E351"],[0.872909698996656,"#57E450"],[0.876254180602007,"#56E44F"],[0.879598662207358,"#55E54E"],[0.882943143812709,"#54E64D"],[0.88628762541806,"#53E74C"],[0.889632107023411,"#52E74A"],[0.892976588628763,"#51E849"],[0.896321070234114,"#50E948"],[0.899665551839465,"#4FE947"],[0.903010033444816,"#4EEA46"],[0.906354515050167,"#4DEB44"],[0.909698996655518,"#4BEC43"],[0.91304347826087,"#4AEC42"],[0.916387959866221,"#49ED40"],[0.919732441471572,"#48EE3F"],[0.923076923076923,"#46EE3E"],[0.926421404682274,"#45EF3C"],[0.929765886287625,"#43F03B"],[0.933110367892977,"#42F139"],[0.936454849498328,"#40F138"],[0.939799331103679,"#3FF236"],[0.94314381270903,"#3DF334"],[0.946488294314381,"#3BF333"],[0.949832775919732,"#39F431"],[0.953177257525084,"#38F52F"],[0.956521739130435,"#36F62D"],[0.959866220735786,"#33F62B"],[0.963210702341137,"#31F729"],[0.966555183946488,"#2FF827"],[0.969899665551839,"#2CF925"],[0.973244147157191,"#2AF922"],[0.976588628762542,"#27FA20"],[0.979933110367893,"#23FB1D"],[0.983277591973244,"#20FB1A"],[0.986622073578595,"#1CFC16"],[0.989966555183946,"#17FD12"],[0.993311036789298,"#11FE0D"],[0.996655518394649,"#0AFE07"],[1,"#00FF00"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"thickness":23.04,"title":"Peak's<br />probability (%)","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"tickmode":"array","ticktext":["0","25","50","75","100"],"tickvals":[0,0.25,0.5,0.75,1],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":40.1826484018265,"l":48.9497716894977},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Predicted and Observed confirmed cases","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[18309.8,18402.2],"tickmode":"array","ticktext":["mar","apr","mag"],"tickvals":[18322,18353,18383],"categoryorder":"array","categoryarray":["mar","apr","mag"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Day","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-457.9,9615.9],"tickmode":"array","ticktext":["0","2500","5000","7500"],"tickvals":[0,2500,5000,7500],"categoryorder":"array","categoryarray":["0","2500","5000","7500"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Cases","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"c9e7702840c5":{"x":{},"y":{},"ymin":{},"ymax":{},"colour":{},"type":"scatter"},"c9e7471318b":{"x":{},"y":{},"ymin":{},"ymax":{},"colour":{}},"c9e73e96f839":{"x":{},"y":{},"x.1":{},"y.1":{},"ymin":{},"ymax":{},"colour":{}}},"cur_data":"c9e7702840c5","visdat":{"c9e7702840c5":["function (y) ","x"],"c9e7471318b":["function (y) ","x"],"c9e73e96f839":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="evolution-of-increments" class="section level2">
+<h2><span class="header-section-number">1.1</span> Evolution of increments</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">increment=<span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="kw">ncol</span>(preds)) increment=<span class="kw">cbind</span>(increment,preds[,i]<span class="op">-</span>preds[,i<span class="dv">-1</span>]) </a>
+<a class="sourceLine" id="cb1-3" title="3">obsinc=cvirus<span class="op">$</span>casos[<span class="op">-</span><span class="dv">1</span>]<span class="op">-</span>cvirus<span class="op">$</span>casos[<span class="op">-</span><span class="kw">nrow</span>(cvirus)]</a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5">dbinc=<span class="kw">data.frame</span>(<span class="dt">day=</span>dd[<span class="op">-</span><span class="dv">1</span>],<span class="dt">yinf=</span><span class="kw">apply</span>(increment,<span class="dv">2</span>,quantile,<span class="dt">p=</span><span class="fl">0.025</span>),</a>
+<a class="sourceLine" id="cb1-6" title="6">                 <span class="dt">ymean=</span><span class="kw">apply</span>(increment,<span class="dv">2</span>,mean),<span class="dt">ysup=</span><span class="kw">apply</span>(increment,<span class="dv">2</span>,quantile,<span class="dt">p=</span><span class="fl">0.975</span>),</a>
+<a class="sourceLine" id="cb1-7" title="7">                 <span class="dt">obs=</span><span class="kw">c</span>(obsinc,<span class="kw">rep</span>(<span class="ot">NA</span>,np)))</a>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9">p=<span class="kw">ggplot</span>(dbinc, <span class="kw">aes</span>(<span class="dt">x=</span>day, <span class="dt">y=</span>ymean,<span class="dt">ymin=</span>yinf,<span class="dt">ymax=</span>ysup)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="st"> </span><span class="kw">geom_ribbon</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">colour =</span> <span class="st">&quot;yellow&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data=</span>dbinc,<span class="kw">aes</span>(<span class="dt">x=</span>day,<span class="dt">y=</span>obs),<span class="dt">color=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Day&quot;</span>)<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;Cases&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Predicted and Observed increment of cases&quot;</span>)</a>
+<a class="sourceLine" id="cb1-14" title="14"></a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="kw">print</span>(p)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-2-1.svg" width="672" /></p>
+</div>
+<div id="data" class="section level2">
+<h2><span class="header-section-number">1.2</span> Data</h2>
+<p>Here is the DataBase from ISCII (<a href="https://covid19.isciii.es/" class="uri">https://covid19.isciii.es/</a>) of only confirmed cases at the end of the Day.</p>
+<p>These data can be smileading and the rest of analysis is subject to assuming that confirmed cases reflect evolution of covid-19 spread.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">rm</span>(<span class="dt">list=</span><span class="kw">ls</span>())</a>
+<a class="sourceLine" id="cb2-2" title="2">url &lt;-<span class="st"> &quot;https://code.montera34.com:4443/numeroteca/covid19/-/raw/master/data/output/covid19-cases-uci-deaths-by-ccaa-spain-by-day-accumulated.csv&quot;</span></a>
+<a class="sourceLine" id="cb2-3" title="3">cvirus &lt;-<span class="st"> </span><span class="kw">read.table</span>(url, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">header =</span> T)</a>
+<a class="sourceLine" id="cb2-4" title="4">xxc=<span class="kw">aggregate</span>(cvirus<span class="op">$</span>cases_registered,<span class="kw">list</span>(<span class="dt">fecha=</span>cvirus<span class="op">$</span>date),sum,<span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-5" title="5">xxc[,<span class="dv">2</span>]=<span class="kw">c</span>(<span class="dv">0</span>,xxc[<span class="op">-</span><span class="dv">1</span>,<span class="dv">2</span>]<span class="op">-</span>xxc[<span class="op">-</span><span class="kw">nrow</span>(xxc),<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb2-6" title="6">cvirus=<span class="kw">data.frame</span>(<span class="dt">fecha=</span><span class="kw">as.Date</span>(xxc[<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>]),<span class="dt">casos=</span>xxc[<span class="op">-</span><span class="dv">1</span>,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb2-7" title="7">cvirus=cvirus[<span class="kw">order</span>(cvirus<span class="op">$</span>fecha),]</a>
+<a class="sourceLine" id="cb2-8" title="8">cvirus=<span class="kw">na.omit</span>(cvirus)</a>
+<a class="sourceLine" id="cb2-9" title="9">fecha=cvirus<span class="op">$</span>fecha</a>
+<a class="sourceLine" id="cb2-10" title="10">n=<span class="kw">nrow</span>(cvirus)</a></code></pre></div>
+</div>
+<div id="model-for-marginal-counts-cases" class="section level2">
+<h2><span class="header-section-number">1.3</span> Model for marginal counts cases</h2>
+<p>Let <span class="math inline">\(Y_t \in \mathcal{N}_0\)</span> represents the number of cases at time (days) <span class="math inline">\(t\)</span> where <span class="math inline">\(t=1\)</span> is 2020-02-22.</p>
+<p>The fitted model is an ARMA(1,1) on the Poisson mean:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_t | \lambda_t &amp; \sim  Poisson(\lambda_t), \mbox{ for } t&gt;0\\
+\log(\lambda_t) &amp; = \omega+\alpha\log(1+y_{t-1})+\beta\log(\lambda_{t-1}), \mbox{ for } t&gt;1\\
+\alpha,\beta,\omega &amp; \sim N(0,10) (i.i.d.)\\
+log(\lambda_1) &amp; \sim N(-99,0.001)
+\end{aligned}
+\]</span></p>
+<p>Interpetation of parameters:</p>
+<ul>
+<li><span class="math inline">\(\omega\)</span> is the mean number (in log scale) of infected (actually the certified infected);</li>
+<li><span class="math inline">\(\alpha\)</span> is the short term component (i.e. the proportion of new infected with respect to the day before);</li>
+<li><span class="math inline">\(\beta\)</span> is the long term component that represents the evolution with respect to the mean (this is analogue to posing a GARCH on Poisson counts);</li>
+</ul>
+<p>The non Bayesian and <em>slighlty less complicated</em> version of this model can be found here:</p>
+<p><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3551626" class="uri">https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3551626</a></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw">Sys.setenv</span>(<span class="dt">LOCAL_CPPFLAGS =</span> <span class="st">&#39;-march=native -mtune=native -axCORE-AVX2&#39;</span>)</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</a>
+<a class="sourceLine" id="cb3-4" title="4"></a>
+<a class="sourceLine" id="cb3-5" title="5">mod.cov =<span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="st">data {</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="st">  int&lt;lower=2&gt; n;// number of observations</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="st">  int&lt;lower=2&gt; np;// number of predicted days</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="st">  int&lt;lower=0&gt; y[n]; // Cases</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="st">  </span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="st">}</span></a>
+<a class="sourceLine" id="cb3-12" title="12"></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="st">parameters {</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="st">  real alpha;</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="st">  real beta; </span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="st">  real omega;</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="st">}</span></a>
+<a class="sourceLine" id="cb3-18" title="18"></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="st">transformed parameters {</span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="st">  vector[n] llambda;</span></a>
+<a class="sourceLine" id="cb3-21" title="21"><span class="st">  llambda[1]=-99;</span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="st">  for(t in 2:n) llambda[t]=omega+alpha*log(1+y[t-1])+beta*llambda[t-1];</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="st">}</span></a>
+<a class="sourceLine" id="cb3-24" title="24"></a>
+<a class="sourceLine" id="cb3-25" title="25"><span class="st">model {</span></a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="st">  // Priors</span></a>
+<a class="sourceLine" id="cb3-27" title="27"><span class="st">  alpha ~ normal(0,10);</span></a>
+<a class="sourceLine" id="cb3-28" title="28"><span class="st">  beta ~ normal(0,10);</span></a>
+<a class="sourceLine" id="cb3-29" title="29"><span class="st">  omega ~ normal(0,10);</span></a>
+<a class="sourceLine" id="cb3-30" title="30"><span class="st">  // Likelihood</span></a>
+<a class="sourceLine" id="cb3-31" title="31"><span class="st">  y ~ poisson_log(llambda);</span></a>
+<a class="sourceLine" id="cb3-32" title="32"></a>
+<a class="sourceLine" id="cb3-33" title="33"><span class="st">}</span></a>
+<a class="sourceLine" id="cb3-34" title="34"></a>
+<a class="sourceLine" id="cb3-35" title="35"><span class="st">generated quantities {</span></a>
+<a class="sourceLine" id="cb3-36" title="36"><span class="st">  int&lt;lower=0&gt; yp[n];</span></a>
+<a class="sourceLine" id="cb3-37" title="37"><span class="st">  int&lt;lower=0&gt; ypf[np];</span></a>
+<a class="sourceLine" id="cb3-38" title="38"><span class="st">  real llambdaf[np];</span></a>
+<a class="sourceLine" id="cb3-39" title="39"><span class="st">  yp[1]=0;</span></a>
+<a class="sourceLine" id="cb3-40" title="40"><span class="st">  for(t in 2:n) yp[t] = poisson_rng(exp(llambda[t])); //y values predicted by the model</span></a>
+<a class="sourceLine" id="cb3-41" title="41"><span class="st">  llambdaf[1]=omega+alpha*log(1+y[n])+beta*llambda[n];</span></a>
+<a class="sourceLine" id="cb3-42" title="42"><span class="st">  ypf[1]=poisson_rng(exp(llambdaf[1]));</span></a>
+<a class="sourceLine" id="cb3-43" title="43"><span class="st">  for(t in 2:np){</span></a>
+<a class="sourceLine" id="cb3-44" title="44"><span class="st">      llambdaf[t]=omega+alpha*log(1+ypf[t-1])+beta*llambdaf[t-1];</span></a>
+<a class="sourceLine" id="cb3-45" title="45"><span class="st">      ypf[t]=poisson_rng(exp(llambdaf[t]));</span></a>
+<a class="sourceLine" id="cb3-46" title="46"><span class="st">  }</span></a>
+<a class="sourceLine" id="cb3-47" title="47"><span class="st">}</span></a>
+<a class="sourceLine" id="cb3-48" title="48"><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb3-49" title="49">ii=<span class="kw">list</span>(<span class="dt">omega=</span><span class="fl">1.12</span>,<span class="dt">alpha=</span><span class="fl">0.88</span>,<span class="dt">beta=</span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb3-50" title="50">init_f &lt;-<span class="st"> </span><span class="cf">function</span> () <span class="kw">list</span>(ii,ii,ii,ii)</a>
+<a class="sourceLine" id="cb3-51" title="51">m1 &lt;-<span class="st"> </span><span class="kw">stan_model</span>(<span class="dt">model_code =</span> mod.cov)</a></code></pre></div>
+<p>Hamiltonian MC is used for obtaining the posterior:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">np=<span class="dv">10</span></a>
+<a class="sourceLine" id="cb4-2" title="2">niter=<span class="dv">10000</span></a>
+<a class="sourceLine" id="cb4-3" title="3">fit =<span class="st"> </span><span class="kw">sampling</span>(m1,</a>
+<a class="sourceLine" id="cb4-4" title="4">           <span class="dt">data=</span><span class="kw">list</span>(<span class="dt">y=</span>cvirus<span class="op">$</span>casos,<span class="dt">n=</span>n,<span class="dt">np=</span>np), </a>
+<a class="sourceLine" id="cb4-5" title="5">           <span class="dt">iter=</span>niter,<span class="dt">chains =</span> <span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb4-6" title="6">          <span class="dt">init =</span> <span class="kw">init_f</span>(),</a>
+<a class="sourceLine" id="cb4-7" title="7">          <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">adapt_delta =</span> <span class="fl">0.99</span>,<span class="dt">max_treedepth=</span><span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb4-8" title="8">           <span class="dt">seed =</span> <span class="dv">17</span>,<span class="dt">refresh=</span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="kw">save</span>(fit,cvirus,np,n,<span class="dt">file=</span><span class="st">&quot;stanmod.RData&quot;</span>)</a></code></pre></div>
+</div>
+<div id="goodness-of-fit" class="section level2">
+<h2><span class="header-section-number">1.4</span> Goodness of Fit</h2>
+<p>The model is reliable if is able to predict what observed, when taking into account prediction uncertainty. Here is the predicted mean and 95% posterior credible interval (i.e. small with respect to the mean).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">load</span>(<span class="dt">file=</span><span class="st">&quot;stanmod.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">library</span>(bayesplot)</a>
+<a class="sourceLine" id="cb5-3" title="3">preds=<span class="kw">extract</span>(fit,<span class="dt">pars=</span><span class="st">&quot;yp&quot;</span>)<span class="op">$</span>yp</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="kw">ppc_intervals</span>(</a>
+<a class="sourceLine" id="cb5-5" title="5">  <span class="dt">y =</span> <span class="kw">apply</span>(preds,<span class="dv">2</span>,mean),</a>
+<a class="sourceLine" id="cb5-6" title="6">  <span class="dt">yrep =</span> preds,</a>
+<a class="sourceLine" id="cb5-7" title="7">  <span class="dt">x =</span> cvirus<span class="op">$</span>casos,</a>
+<a class="sourceLine" id="cb5-8" title="8">  <span class="dt">prob =</span> <span class="fl">0.95</span></a>
+<a class="sourceLine" id="cb5-9" title="9">)<span class="op">+</span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb5-10" title="10">    <span class="dt">x =</span> <span class="st">&quot;Observed Cases&quot;</span>,</a>
+<a class="sourceLine" id="cb5-11" title="11">    <span class="dt">y =</span> <span class="st">&quot;Predicted cases&quot;</span>,</a>
+<a class="sourceLine" id="cb5-12" title="12">    <span class="dt">title =</span> <span class="st">&quot;95% posterior predictive intervals </span><span class="ch">\n</span><span class="st">vs Observed&quot;</span>,</a>
+<a class="sourceLine" id="cb5-13" title="13">    <span class="dt">subtitle =</span> <span class="st">&quot;by day&quot;</span></a>
+<a class="sourceLine" id="cb5-14" title="14">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-15" title="15"><span class="st">  </span><span class="kw">panel_bg</span>(<span class="dt">fill =</span> <span class="st">&quot;gray95&quot;</span>, <span class="dt">color =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-16" title="16"><span class="st">  </span><span class="kw">grid_lines</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>)<span class="op">+</span><span class="kw">geom_abline</span>(<span class="dt">intercept =</span> <span class="dv">0</span>,<span class="dt">slope=</span><span class="dv">1</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-6-1.svg" width="672" /></p>
+</div>
+<div id="posterior-parameters" class="section level2">
+<h2><span class="header-section-number">1.5</span> Posterior Parameters</h2>
+<p>Posterior distributions of model paramters: mean and 95% credible intervals.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">int.par=<span class="kw">c</span>(<span class="st">&quot;omega&quot;</span>,<span class="st">&quot;alpha&quot;</span>,<span class="st">&quot;beta&quot;</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw">plot</span>(fit,<span class="dt">pars =</span> int.par,<span class="dt">ci.level=</span><span class="fl">0.95</span>,<span class="dt">point_est=</span><span class="st">&quot;mean&quot;</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-7-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">print</span>(fit,<span class="dt">pars =</span> int.par)</a></code></pre></div>
+<pre><code>## Inference for Stan model: 4f41132ade8735d34bcdceb797f2be59.
+## 4 chains, each with iter=10000; warmup=5000; thin=1; 
+## post-warmup draws per chain=5000, total post-warmup draws=20000.
+## 
+##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
+## omega  1.12       0 0.03  1.06  1.10  1.12  1.14  1.18  6084    1
+## alpha  0.88       0 0.00  0.87  0.88  0.88  0.88  0.89  5351    1
+## beta  -0.01       0 0.00 -0.02 -0.01 -0.01 -0.01  0.00  6267    1
+## 
+## Samples were drawn using NUTS(diag_e) at Thu May 14 12:41:12 2020.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="iterative-estimation-of-parameters-and-outof-sample-prediction-.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
